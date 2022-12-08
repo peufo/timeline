@@ -1,9 +1,11 @@
 <script lang="ts">
   import TimeLine from '$lib/TimeLine.svelte'
-  import type { EventDescription } from '$lib/TimeLine.svelte'
+  import type { EventDescription } from '$lib/types'
+  import { item, itemKey } from './store'
 
-  let colorPoint = '#999999'
   let colorLine = '#bbbbbb'
+  let hasNext = true
+
   const events: EventDescription[] = [
     {
       title: `Le charbon`,
@@ -24,15 +26,23 @@
   <div class="control">
     <label>
       Couleur des points
-      <input type="color" bind:value={colorPoint} />
+      <input type="color" bind:value={$item.control.colorPoint} />
     </label>
     <label>
       Couleur des lignes
-      <input type="color" bind:value={colorLine} />
+      <input type="color" bind:value={$item.control.colorLine} />
     </label>
+    <label>
+      Afficher la dernière ligne
+      <input type="checkbox" bind:checked={$item.control.hasNext} />
+    </label>
+
+    <a href="https://www.cdnfonts.com/" target="_blank" rel="noreferrer">
+      Chercher un police
+    </a>
   </div>
   <div class="timeline">
-    <TimeLine {events} disableFormatTime hasNext {colorPoint} {colorLine} />
+    <TimeLine bind:events={$item.events} disableFormatTime {...$item.control} />
   </div>
 </main>
 
@@ -56,6 +66,7 @@
   .control {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    align-items: flex-start;
+    gap: 1em;
   }
 </style>

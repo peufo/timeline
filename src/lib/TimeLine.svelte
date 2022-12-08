@@ -1,12 +1,6 @@
-<script lang="ts" context="module">
-  export type EventDescription = {
-    title: string
-    detail?: string
-    time: string | number | Date
-  }
-</script>
-
 <script lang="ts">
+  import type { EventDescription } from '$lib/types'
+
   export let events: EventDescription[]
   export let hasNext = false
   export let disableFormatTime = false
