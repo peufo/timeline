@@ -12,7 +12,6 @@
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "@sveltejs/package": "next",
-    "@types/debounce": "^1.2.1",
     "svelte": "^3.53.1",
     "svelte-check": "^2.9.2",
     "svelte-preprocess": "^4.10.7",
@@ -22,7 +21,6 @@
   },
   "type": "module",
   "dependencies": {
-    "debounce": "^1.2.1",
     "sass": "^1.56.1"
   }
 }

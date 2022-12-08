@@ -118,7 +118,7 @@
     .edit {
       display: none;
       position: absolute;
-      right: 0;
+      right: -2em;
       top: 0;
     }
     &:hover > .edit {
