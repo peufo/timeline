@@ -4,6 +4,8 @@
   import TimeLine from '$lib/TimeLine.svelte'
   import { item, itemKey, defaultStoreItem } from './store'
 
+  let timelineElement: HTMLDivElement
+
   let itemKeys = Object.keys(browser ? localStorage : {})
     .filter((k) => k.startsWith('item-'))
     .map((key) => key.replace('item-', ''))
@@ -25,6 +27,16 @@
     itemKeys = [...itemKeys.slice(0, index), ...itemKeys.slice(index + 1)]
     localStorage.removeItem(`item-${$itemKey}`)
     $itemKey = 'default'
+  }
+
+  async function handleExport() {
+    const printJS = (await import('print-js')).default
+    printJS({
+      printable: timelineElement,
+      type: 'html',
+      targetStyles: ['*'],
+      font_size: undefined,
+    })
   }
 </script>
 
@@ -73,14 +85,19 @@
         <input type="checkbox" bind:checked={$item.control.hasNext} />
       </label>
 
-      <a href="https://www.cdnfonts.com/" target="_blank" rel="noreferrer">
-        Chercher une police d'écriture
-      </a>
+      <!--
+        <a href="https://www.cdnfonts.com/" target="_blank" rel="noreferrer">
+          Chercher une police d'écriture
+        </a>
+      -->
 
-      <button style="align-self: end">Exporter</button>
+      <button on:click={handleExport}>
+        <b>EXPORTER</b>
+      </button>
     </div>
-    <div class="timeline">
+    <div class="timeline" style="-webkit-print-color-adjust: exact !important;">
       <TimeLine
+        bind:timelineElement
         bind:events={$item.events}
         disableFormatTime
         editable

@@ -21,6 +21,7 @@
   },
   "type": "module",
   "dependencies": {
+    "print-js": "^1.6.0",
     "sass": "^1.56.1"
   }
 }

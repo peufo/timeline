@@ -10,6 +10,7 @@
   export let style = ''
   export let colorPoint = 'rgb(131, 131, 131)'
   export let colorLine = 'rgb(171, 171, 171)'
+  export let timelineElement: HTMLDivElement | undefined
 
   const intl = new Intl.DateTimeFormat(undefined, {
     weekday: 'short',
@@ -40,6 +41,7 @@
 </script>
 
 <div
+  bind:this={timelineElement}
   class="timeline {klass}"
   class:hasNext
   style="
@@ -113,12 +115,21 @@
     grid-template-columns: max-content 12px 1fr;
     justify-content: stretch;
     max-width: 210mm;
+    -webkit-print-color-adjust: exact !important; /*Chrome, Safari */
+    color-adjust: exact !important; /*Firefox*/
   }
 
   .time,
   .content {
     padding: 6px 16px;
     position: relative;
+  }
+
+  .time {
+    text-align: right;
+  }
+
+  .content {
     .edit {
       display: none;
       position: absolute;
@@ -128,11 +139,6 @@
     &:hover > .edit {
       display: block;
     }
-  }
-
-  .time {
-    padding-top: 8px;
-    text-align: right;
   }
 
   .decorator {
