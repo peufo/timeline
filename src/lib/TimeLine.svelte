@@ -4,6 +4,7 @@
   export let events: EventDescription[]
   export let hasNext = false
   export let disableFormatTime = false
+  export let editable = false
   let klass = ''
   export { klass as class }
   export let style = ''
@@ -29,19 +30,41 @@
     {style}
   "
 >
-  {#each events as { title, detail, time }, index}
-    <div class="time" contenteditable={true}>
-      {disableFormatTime ? time : intl.format(new Date(time))}
-    </div>
-    <div class="decorator">
-      <div class="dot" />
-      <div class="line" class:hide={!hasNext && index === events.length - 1} />
-    </div>
-    <div class="content">
-      <b contenteditable={true}>{title}</b>
-      <p contenteditable={true}>{detail}</p>
-    </div>
-  {/each}
+  {#if editable}
+    {#each events as { title, detail, time }, index}
+      <div class="time" contenteditable="true" bind:innerHTML={time} />
+      <div class="decorator">
+        <div class="dot" />
+        <div
+          class="line"
+          class:hide={!hasNext && index === events.length - 1}
+        />
+      </div>
+      <div class="content">
+        <b contenteditable="true" on:input bind:innerHTML={title} />
+        <p contenteditable="true" on:input bind:innerHTML={detail} />
+      </div>
+    {/each}
+  {:else}
+    {#each events as { title, detail, time }, index}
+      <div class="time">
+        {disableFormatTime ? time : intl.format(new Date(time))}
+      </div>
+      <div class="decorator">
+        <div class="dot" />
+        <div
+          class="line"
+          class:hide={!hasNext && index === events.length - 1}
+        />
+      </div>
+      <div class="content">
+        <b>{title}</b>
+        <p>
+          {detail}
+        </p>
+      </div>
+    {/each}
+  {/if}
 </div>
 
 <style lang="scss">

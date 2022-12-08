@@ -1,7 +1,7 @@
 export type EventDescription = {
   title: string
   detail?: string
-  time: string | number | Date
+  time: string
 }
 
 export type Control = {

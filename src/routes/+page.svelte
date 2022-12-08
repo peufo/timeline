@@ -18,6 +18,8 @@
       detail: `Début de l'électricité`,
     },
   ]
+
+  $: console.log($item.events)
 </script>
 
 <h2>TimeLine</h2>
@@ -42,7 +44,12 @@
     </a>
   </div>
   <div class="timeline">
-    <TimeLine bind:events={$item.events} disableFormatTime {...$item.control} />
+    <TimeLine
+      bind:events={$item.events}
+      disableFormatTime
+      editable
+      {...$item.control}
+    />
   </div>
 </main>
 
