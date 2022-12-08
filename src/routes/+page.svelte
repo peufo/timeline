@@ -1,8 +1,10 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { browser } from '$app/environment'
   import { debounce } from 'debounce'
+  import { browser } from '$app/environment'
+
   import TimeLine from '$lib/TimeLine.svelte'
+  import type { EventDescription } from '$lib/types'
   import { item, itemKey } from './store'
 
   let selectedIndex: number | undefined = undefined
@@ -25,6 +27,7 @@
     $itemKey = 'default'
   }
 
+  // time event selection
   const setIndex = debounce((index?: number) => (selectedIndex = index), 100)
   function handleFocus(event: FocusEvent) {
     const target = event.target as HTMLElement
@@ -34,6 +37,30 @@
   function handleBlur() {
     setIndex()
   }
+
+  // time event action
+  const defaultEvent: EventDescription = {
+    title: 'Future',
+    time: '2042',
+    detail: 'Ca déchire',
+  }
+  function addEvent(index: number) {
+    console.log(index)
+    $item.events = [
+      ...$item.events.slice(0, index),
+      defaultEvent,
+      ...$item.events.slice(index),
+    ]
+  }
+
+  function removeEvent(index: number) {
+    $item.events = [
+      ...$item.events.slice(0, index),
+      ...$item.events.slice(index + 1),
+    ]
+  }
+
+  $: console.log({ selectedIndex })
 </script>
 
 <div class="wrapper">
@@ -91,20 +118,30 @@
         disableFormatTime
         editable
         {...$item.control}
-        on:focus={handleFocus}
-        on:blur={handleBlur}
       />
 
       <div class="timeline-actions">
         {#if selectedIndex !== undefined}
-          <button class="add" transition:fade|local={{ duration: 200 }}>
-            + avant
+          <button
+            class="add"
+            transition:fade|local={{ duration: 200 }}
+            on:click={() => addEvent(selectedIndex || 0)}
+          >
+            Ajouter avant
           </button>
-          <button class="add" transition:fade|local={{ duration: 200 }}>
-            + après
+          <button
+            class="add"
+            transition:fade|local={{ duration: 200 }}
+            on:click={() => addEvent((selectedIndex || 0) + 1)}
+          >
+            Ajouter après
           </button>
-          <button class="remove" transition:fade|local={{ duration: 200 }}>
-            -
+          <button
+            class="remove"
+            transition:fade|local={{ duration: 200 }}
+            on:click={() => removeEvent(selectedIndex || 0)}
+          >
+            Supprimer
           </button>
         {/if}
 
@@ -163,11 +200,7 @@
     border: 1px grey solid;
     border-radius: 3px;
   }
-  .add,
-  .remove {
-    text-align: center;
-    font-weight: bold;
-  }
+
   .add {
     background: #a7d49b;
   }

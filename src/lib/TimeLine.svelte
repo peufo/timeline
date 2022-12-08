@@ -19,6 +19,20 @@
     hour: 'numeric',
     minute: 'numeric',
   })
+
+  const newEvent: EventDescription = {
+    title: 'Future',
+    time: '2042',
+    detail: 'Ca déchire',
+  }
+  function addEvent(index: number) {
+    console.log(index)
+    events = [...events.slice(0, index), newEvent, ...events.slice(index)]
+  }
+
+  function removeEvent(index: number) {
+    events = [...events.slice(0, index), ...events.slice(index + 1)]
+  }
 </script>
 
 <div
@@ -32,14 +46,8 @@
 >
   {#if editable}
     {#each events as { title, detail, time }, index}
-      <div
-        class="time"
-        contenteditable="true"
-        bind:innerHTML={time}
-        on:focus
-        on:blur
-        data-index={index}
-      />
+      <div class="time" contenteditable="true" bind:innerHTML={time} />
+
       <div class="decorator">
         <div class="dot" />
         <div
@@ -47,21 +55,29 @@
           class:hide={!hasNext && index === events.length - 1}
         />
       </div>
+
       <div class="content">
-        <b
-          contenteditable="true"
-          bind:innerHTML={title}
-          on:focus
-          on:blur
-          data-index={index}
-        />
-        <p
-          contenteditable="true"
-          bind:innerHTML={detail}
-          on:focus
-          on:blur
-          data-index={index}
-        />
+        <b contenteditable="true" bind:innerHTML={title} />
+        <p contenteditable="true" bind:innerHTML={detail} />
+        <div class="edit">
+          <button
+            class="add"
+            on:click={() => addEvent(index)}
+            title="Ajouter avant">↑</button
+          >
+          <button
+            class="add"
+            on:click={() => addEvent(index + 1)}
+            title="Ajouter après">↓</button
+          >
+          <button
+            class="remove"
+            on:click={() => removeEvent(index)}
+            title="Supprimer"
+          >
+            -
+          </button>
+        </div>
       </div>
     {/each}
   {:else}
@@ -69,6 +85,7 @@
       <div class="time">
         {disableFormatTime ? time : intl.format(new Date(time))}
       </div>
+
       <div class="decorator">
         <div class="dot" />
         <div
@@ -76,11 +93,10 @@
           class:hide={!hasNext && index === events.length - 1}
         />
       </div>
+
       <div class="content">
         <b>{title}</b>
-        <p>
-          {detail}
-        </p>
+        <p>{detail}</p>
       </div>
     {/each}
   {/if}
@@ -98,6 +114,16 @@
   .time,
   .content {
     padding: 6px 16px;
+    position: relative;
+    .edit {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    &:hover > .edit {
+      display: block;
+    }
   }
 
   .time {
@@ -127,5 +153,16 @@
       background-color: var(--color-line);
       border-radius: 1px;
     }
+  }
+
+  button {
+    border: 1px grey solid;
+    border-radius: 3px;
+  }
+  .add {
+    background: #a7d49b;
+  }
+  .remove {
+    background: #dda15e;
   }
 </style>
