@@ -7,7 +7,7 @@ type StoreItem = {
   events: EventDescription[]
 }
 
-const defaultStoreItem: StoreItem = {
+export const defaultStoreItem: StoreItem = {
   control: {
     colorPoint: '#999999',
     colorLine: '#bbbbbb',

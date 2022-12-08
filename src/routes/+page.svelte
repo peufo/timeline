@@ -2,7 +2,7 @@
   import { browser } from '$app/environment'
 
   import TimeLine from '$lib/TimeLine.svelte'
-  import { item, itemKey } from './store'
+  import { item, itemKey, defaultStoreItem } from './store'
 
   let itemKeys = Object.keys(browser ? localStorage : {})
     .filter((k) => k.startsWith('item-'))
@@ -16,6 +16,10 @@
   }
 
   function handleRemove() {
+    if ($itemKey === 'default') {
+      $item = JSON.parse(JSON.stringify(defaultStoreItem))
+      return
+    }
     const index = itemKeys.indexOf($itemKey)
     itemKeys = [...itemKeys.slice(0, index), ...itemKeys.slice(index + 1)]
     localStorage.removeItem(`item-${$itemKey}`)
@@ -72,9 +76,7 @@
         Chercher une police d'écriture
       </a>
 
-      <div class="submit-button">
-        <button>Exporter</button>
-      </div>
+      <button style="align-self: end">Exporter</button>
     </div>
     <div class="timeline">
       <TimeLine

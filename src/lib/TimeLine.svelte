@@ -27,7 +27,11 @@
   }
   function addEvent(index: number) {
     console.log(index)
-    events = [...events.slice(0, index), newEvent, ...events.slice(index)]
+    events = [
+      ...events.slice(0, index),
+      { ...newEvent },
+      ...events.slice(index),
+    ]
   }
 
   function removeEvent(index: number) {
