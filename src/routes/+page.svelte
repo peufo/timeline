@@ -16,6 +16,7 @@
   }
 
   function handleRemove() {
+    if (!confirm('Ètes-vous sûr ?')) return
     if ($itemKey === 'default') {
       $item = JSON.parse(JSON.stringify(defaultStoreItem))
       return
