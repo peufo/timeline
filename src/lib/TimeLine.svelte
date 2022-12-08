@@ -32,7 +32,14 @@
 >
   {#if editable}
     {#each events as { title, detail, time }, index}
-      <div class="time" contenteditable="true" bind:innerHTML={time} />
+      <div
+        class="time"
+        contenteditable="true"
+        bind:innerHTML={time}
+        on:focus
+        on:blur
+        data-index={index}
+      />
       <div class="decorator">
         <div class="dot" />
         <div
@@ -41,8 +48,20 @@
         />
       </div>
       <div class="content">
-        <b contenteditable="true" on:input bind:innerHTML={title} />
-        <p contenteditable="true" on:input bind:innerHTML={detail} />
+        <b
+          contenteditable="true"
+          bind:innerHTML={title}
+          on:focus
+          on:blur
+          data-index={index}
+        />
+        <p
+          contenteditable="true"
+          bind:innerHTML={detail}
+          on:focus
+          on:blur
+          data-index={index}
+        />
       </div>
     {/each}
   {:else}
@@ -73,7 +92,7 @@
     display: grid;
     grid-template-columns: max-content 12px 1fr;
     justify-content: stretch;
-    max-width: 600px;
+    max-width: 210mm;
   }
 
   .time,

@@ -1,7 +1,11 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition'
   import { browser } from '$app/environment'
+  import { debounce } from 'debounce'
   import TimeLine from '$lib/TimeLine.svelte'
   import { item, itemKey } from './store'
+
+  let selectedIndex: number | undefined = undefined
 
   let itemKeys = Object.keys(browser ? localStorage : {})
     .filter((k) => k.startsWith('item-'))
@@ -20,11 +24,21 @@
     localStorage.removeItem(`item-${$itemKey}`)
     $itemKey = 'default'
   }
+
+  const setIndex = debounce((index?: number) => (selectedIndex = index), 100)
+  function handleFocus(event: FocusEvent) {
+    const target = event.target as HTMLElement
+    const index = +(target.dataset.index || 0)
+    setIndex(index)
+  }
+  function handleBlur() {
+    setIndex()
+  }
 </script>
 
 <div class="wrapper">
   <header>
-    <h2>Timeline</h2>
+    <h2>Timeline editor</h2>
     <div class="save">
       <label title="Sélectioner une sauvegarde">
         Sauvegarde:
@@ -68,7 +82,7 @@
       </label>
 
       <a href="https://www.cdnfonts.com/" target="_blank" rel="noreferrer">
-        Chercher un police
+        Chercher une police d'écriture
       </a>
     </div>
     <div class="timeline">
@@ -77,14 +91,32 @@
         disableFormatTime
         editable
         {...$item.control}
+        on:focus={handleFocus}
+        on:blur={handleBlur}
       />
+
+      <div class="timeline-actions">
+        {#if selectedIndex !== undefined}
+          <button class="add" transition:fade|local={{ duration: 200 }}>
+            + avant
+          </button>
+          <button class="add" transition:fade|local={{ duration: 200 }}>
+            + après
+          </button>
+          <button class="remove" transition:fade|local={{ duration: 200 }}>
+            -
+          </button>
+        {/if}
+
+        <button>Exporter</button>
+      </div>
     </div>
   </main>
 </div>
 
 <style lang="scss">
   .wrapper {
-    max-width: 1000px;
+    width: min-content;
     margin: auto;
   }
 
@@ -98,6 +130,7 @@
 
   main {
     display: flex;
+    align-items: flex-start;
     gap: 1em;
   }
 
@@ -111,6 +144,7 @@
   .timeline {
     display: grid;
     place-content: center;
+    width: max-content;
   }
 
   .control {
@@ -120,6 +154,10 @@
     gap: 1em;
     min-width: 300px;
   }
+  .save,
+  .control {
+    background-color: #eee;
+  }
 
   button {
     border: 1px grey solid;
@@ -127,7 +165,6 @@
   }
   .add,
   .remove {
-    width: 22px;
     text-align: center;
     font-weight: bold;
   }
@@ -136,5 +173,11 @@
   }
   .remove {
     background: #dda15e;
+  }
+
+  .timeline-actions {
+    display: flex;
+    gap: 0.2em;
+    justify-content: flex-end;
   }
 </style>
