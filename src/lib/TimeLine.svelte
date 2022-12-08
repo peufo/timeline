@@ -13,6 +13,8 @@
   let klass = ''
   export { klass as class }
   export let style = ''
+  export let colorPoint = 'rgb(131, 131, 131)'
+  export let colorLine = 'rgb(171, 171, 171)'
 
   const intl = new Intl.DateTimeFormat(undefined, {
     weekday: 'short',
@@ -24,9 +26,17 @@
   })
 </script>
 
-<div class="timeline {klass}" class:hasNext {style}>
+<div
+  class="timeline {klass}"
+  class:hasNext
+  style="
+    --color-point: {colorPoint};
+    --color-line: {colorLine};
+    {style}
+  "
+>
   {#each events as { title, detail, time }, index}
-    <div class="time">
+    <div class="time" contenteditable={true}>
       {disableFormatTime ? time : intl.format(new Date(time))}
     </div>
     <div class="decorator">
@@ -34,8 +44,8 @@
       <div class="line" class:hide={!hasNext && index === events.length - 1} />
     </div>
     <div class="content">
-      <b>{title}</b>
-      <p>{detail}</p>
+      <b contenteditable={true}>{title}</b>
+      <p contenteditable={true}>{detail}</p>
     </div>
   {/each}
 </div>
@@ -70,7 +80,7 @@
       flex-shrink: 0;
       width: 12px;
       height: 12px;
-      background-color: rgb(171, 171, 171);
+      background-color: var(--color-point);
       border-radius: 50%;
       margin-top: 3px;
     }
@@ -78,7 +88,7 @@
     & > .line:not(.hide) {
       width: 2px;
       height: 100%;
-      background-color: rgb(131, 131, 131);
+      background-color: var(--color-line);
       border-radius: 1px;
     }
   }

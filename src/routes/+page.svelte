@@ -2,6 +2,8 @@
   import TimeLine from '$lib/TimeLine.svelte'
   import type { EventDescription } from '$lib/TimeLine.svelte'
 
+  let colorPoint = '#999999'
+  let colorLine = '#bbbbbb'
   const events: EventDescription[] = [
     {
       title: `Le charbon`,
@@ -16,15 +18,44 @@
   ]
 </script>
 
-<h2>TimeLine component test</h2>
+<h2>TimeLine</h2>
 
 <main>
-  <TimeLine {events} disableFormatTime hasNext />
+  <div class="control">
+    <label>
+      Couleur des points
+      <input type="color" bind:value={colorPoint} />
+    </label>
+    <label>
+      Couleur des lignes
+      <input type="color" bind:value={colorLine} />
+    </label>
+  </div>
+  <div class="timeline">
+    <TimeLine {events} disableFormatTime hasNext {colorPoint} {colorLine} />
+  </div>
 </main>
 
 <style>
   main {
+    display: flex;
+    gap: 1em;
+  }
+
+  main > div {
+    border: 2px solid grey;
+    border-radius: 4px;
+    padding: 1em;
+  }
+
+  .timeline {
     display: grid;
     place-content: center;
+  }
+
+  .control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
   }
 </style>
