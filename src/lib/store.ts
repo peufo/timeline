@@ -5,25 +5,26 @@ import { browser } from '$app/environment'
 
 type StoreItem = ComponentProps<TimeLineEditable>
 
-const defaultStyle = [
-  '.dot {',
-  '\tbackground: #999999;',
-  '}',
-  '',
-  '.line {',
-  '\tbackground: #bbbbbb;',
-  '}',
-  '',
-  '.time {',
-  '\tcolor: grey;',
-  '}',
-  '.title {',
-  '\tcolor: green;',
-  '}',
-  '.detail {',
-  '\tcolor: blue;',
-  '}',
-].join('\n')
+const defaultStyle = `.dot {
+	background: #999999;
+}
+
+.line {
+	background: #bbbbbb;
+}
+
+.time {
+	font-style: oblique;
+}
+
+.title {
+	text-transform: uppercase;
+}
+
+.detail {
+	color: #555;
+	font-size: small;
+}`
 
 export const defaultStoreItem: StoreItem = {
   hasNext: true,
