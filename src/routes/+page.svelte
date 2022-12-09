@@ -3,7 +3,7 @@
 
   import '$lib/assets/index.css'
 
-  import TimeLine from '$lib/TimeLine.svelte'
+  import TimeLineEditable from '$lib/TimeLineEditable.svelte'
   import { item, itemKey, defaultStoreItem } from '$lib/store'
 
   let timelineElement: HTMLDivElement
@@ -44,7 +44,7 @@
 
 <div class="wrapper">
   <header>
-    <h2>Timeline editor</h2>
+    <h2>Timeline éditable</h2>
     <div class="save">
       <label title="Sélectioner une sauvegarde">
         Sauvegarde:
@@ -98,11 +98,9 @@
       </button>
     </div>
     <div class="timeline" style="-webkit-print-color-adjust: exact !important;">
-      <TimeLine
+      <TimeLineEditable
         bind:timelineElement
         bind:events={$item.events}
-        disableFormatTime
-        editable
         {...$item.control}
         style="font-family: Roboto, sans-serif!important;"
       />

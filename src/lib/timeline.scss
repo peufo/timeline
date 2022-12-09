@@ -1,0 +1,65 @@
+.timeline {
+  margin: 10px 20px;
+  display: grid;
+  grid-template-columns: max-content 12px 1fr;
+  justify-content: stretch;
+  max-width: 210mm;
+  print-color-adjust: exact !important;
+}
+
+.time,
+.content {
+  padding: 6px 16px;
+  position: relative;
+}
+
+.time {
+  text-align: right;
+}
+
+.content {
+  .edit {
+    display: none;
+    position: absolute;
+    right: -2em;
+    top: 0;
+  }
+  &:hover > .edit {
+    display: block;
+  }
+}
+
+.decorator {
+  padding-top: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+
+  & > .dot {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    background-color: var(--color-point);
+    border-radius: 50%;
+    margin-top: 3px;
+  }
+
+  & > .line:not(.hide) {
+    width: 2px;
+    height: 100%;
+    background-color: var(--color-line);
+    border-radius: 1px;
+  }
+}
+
+button {
+  border: 1px grey solid;
+  border-radius: 3px;
+}
+.add {
+  background: #a7d49b;
+}
+.remove {
+  background: #dda15e;
+}

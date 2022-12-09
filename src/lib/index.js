@@ -1,3 +1,3 @@
 // Reexport your entry components here
-import TimeLine from './TimeLine.svelte'
-export default TimeLine
+export * from './TimeLine.svelte'
+export * from './TimeLineEditable.svelte'
