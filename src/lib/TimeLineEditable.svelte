@@ -55,7 +55,7 @@
 
     <div class="content">
       <b class="title" contenteditable="true" bind:innerHTML={title} />
-      <p class="detail" contenteditable="true" bind:innerHTML={detail} />
+      <div class="detail" contenteditable="true" bind:innerHTML={detail} />
       <div class="edit">
         <button
           class="add"

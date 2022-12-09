@@ -45,7 +45,7 @@
         <b>EXPORTER</b>
       </button>
     </div>
-    <div class="timeline" style="-webkit-print-color-adjust: exact !important;">
+    <div class="timeline">
       <TimeLineEditable
         bind:timelineElement
         bind:events={$item.events}
@@ -80,9 +80,8 @@
   }
 
   .timeline {
-    display: grid;
-    place-content: center;
     width: max-content;
+    flex-grow: 1;
   }
 
   .control {

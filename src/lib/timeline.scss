@@ -2,8 +2,8 @@
   display: grid;
   grid-template-columns: max-content 12px 1fr;
   justify-content: stretch;
-  max-width: 210mm;
-  print-color-adjust: exact !important;
+  /*max-width: 210mm;*/
+  -webkit-print-color-adjust: exact !important;
 }
 
 .time,
@@ -14,6 +14,7 @@
 
 .time {
   text-align: right;
+  white-space: nowrap;
 }
 
 .content {
@@ -50,6 +51,11 @@
   height: 100%;
   background-color: #bbbbbb;
   border-radius: 1px;
+}
+
+.detail {
+  padding-top: 1em;
+  padding-bottom: 2em;
 }
 
 button {

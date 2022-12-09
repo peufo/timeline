@@ -35,7 +35,7 @@
 
     <div class="content">
       <b>{title}</b>
-      <p>{detail}</p>
+      <div>{detail}</div>
     </div>
   {/each}
 </div>
