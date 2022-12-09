@@ -5,6 +5,7 @@
   import { item, itemKey, defaultStoreItem } from '$lib/store'
 
   export const prerender = true
+  export const trailingSlash = 'always'
 
   let timelineElement: HTMLDivElement
 
