@@ -36,13 +36,10 @@
           Chercher une police d'écriture
         </a>
       -->
-      <div>
-        <span>Style personnalisé</span>
-        <Monaco
-          bind:value={$item.style}
-          options={{ language: 'css', lineNumbers: 'off' }}
-        />
-      </div>
+      <Monaco
+        bind:value={$item.style}
+        options={{ language: 'css', lineNumbers: 'off' }}
+      />
 
       <button on:click={handleExport}>
         <b>EXPORTER</b>

@@ -54,8 +54,8 @@
     </div>
 
     <div class="content">
-      <b contenteditable="true" bind:innerHTML={title} />
-      <p contenteditable="true" bind:innerHTML={detail} />
+      <b class="title" contenteditable="true" bind:innerHTML={title} />
+      <p class="detail" contenteditable="true" bind:innerHTML={detail} />
       <div class="edit">
         <button
           class="add"
@@ -78,5 +78,3 @@
     </div>
   {/each}
 </div>
-
-<style bind:innerHTML={style}></style>

@@ -94,7 +94,7 @@
   .container {
     height: 100%;
     min-width: 300px;
-    min-height: 300px;
+    min-height: 400px;
     border: #ccc solid 1px;
     border-radius: 3px;
   }
