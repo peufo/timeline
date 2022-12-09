@@ -1,3 +1,3 @@
 # Timeline svelte
 
-Timeline component in svelte
+Editable imeline component in svelte

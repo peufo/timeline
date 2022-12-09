@@ -2,7 +2,9 @@
   import { browser } from '$app/environment'
 
   import TimeLine from '$lib/TimeLine.svelte'
-  import { item, itemKey, defaultStoreItem } from './store'
+  import { item, itemKey, defaultStoreItem } from '$lib/store'
+
+  export const prerender = true
 
   let timelineElement: HTMLDivElement
 

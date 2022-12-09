@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 import { browser } from '$app/environment'
-import type { EventDescription, Control } from '../lib/types'
+import type { EventDescription, Control } from './types'
 
 type StoreItem = {
   control: Control
