@@ -54,5 +54,9 @@
 <style lang="scss">
   .save {
     background-color: #eee;
+    margin-left: auto;
+    border: 2px solid grey;
+    border-radius: 4px;
+    padding: 1em;
   }
 </style>
