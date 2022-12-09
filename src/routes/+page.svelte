@@ -4,9 +4,6 @@
   import TimeLine from '$lib/TimeLine.svelte'
   import { item, itemKey, defaultStoreItem } from '$lib/store'
 
-  export const prerender = true
-  export const trailingSlash = 'always'
-
   let timelineElement: HTMLDivElement
 
   let itemKeys = Object.keys(browser ? localStorage : {})
