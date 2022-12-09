@@ -1,10 +1,10 @@
 import { writable } from 'svelte/store'
 import { browser } from '$app/environment'
-import type { EventDescription, Control } from './types'
+import type { TimelineEventEditable, Control } from './types'
 
 type StoreItem = {
   control: Control
-  events: EventDescription[]
+  events: TimelineEventEditable[]
 }
 
 export const defaultStoreItem: StoreItem = {

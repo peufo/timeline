@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { EventDescription } from '$lib/types'
+  import type { TimeLineEvent } from '$lib/types'
   import '$lib/timeline.scss'
 
-  export let events: EventDescription[]
+  export let events: TimeLineEvent[]
   export let hasNext = false
   export let disableFormatTime = false
   let klass = ''

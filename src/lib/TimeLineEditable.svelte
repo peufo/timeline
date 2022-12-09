@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { EventDescription } from '$lib/types'
+  import type { TimelineEventEditable } from '$lib/types'
   import '$lib/timeline.scss'
 
-  export let events: EventDescription[]
+  export let events: TimelineEventEditable[]
   export let hasNext = false
 
   let klass = ''
@@ -12,7 +12,7 @@
   export let colorLine = 'rgb(171, 171, 171)'
   export let timelineElement: HTMLDivElement | undefined
 
-  const newEvent: EventDescription = {
+  const newEvent: TimelineEventEditable = {
     title: 'Future',
     time: '2042',
     detail: 'Ca déchire',
