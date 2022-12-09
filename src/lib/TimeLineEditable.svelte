@@ -9,8 +9,6 @@
   let klass = ''
   export { klass as class }
   export let style = ''
-  export let colorPoint = 'rgb(131, 131, 131)'
-  export let colorLine = 'rgb(171, 171, 171)'
   export let timelineElement: HTMLDivElement | undefined = undefined
 
   const newEvent: TimelineEventEditable = {
@@ -44,21 +42,15 @@
   $: if (styleElement) styleElement.innerHTML = style
 </script>
 
-<div
-  bind:this={timelineElement}
-  class="timeline {klass}"
-  class:hasNext
-  style="
-    --color-point: {colorPoint};
-    --color-line: {colorLine};
-  "
->
+<div bind:this={timelineElement} class="timeline {klass}" class:hasNext>
   {#each events as { title, detail, time }, index}
     <div class="time" contenteditable="true" bind:innerHTML={time} />
 
     <div class="decorator">
       <div class="dot" />
-      <div class="line" class:hide={!hasNext && index === events.length - 1} />
+      {#if !(!hasNext && index === events.length - 1)}
+        <div class="line" />
+      {/if}
     </div>
 
     <div class="content">

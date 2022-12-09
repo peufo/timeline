@@ -8,8 +8,6 @@
   let klass = ''
   export { klass as class }
   export let style = ''
-  export let colorPoint = 'rgb(131, 131, 131)'
-  export let colorLine = 'rgb(171, 171, 171)'
   export let timelineElement: HTMLDivElement | undefined
 
   const intl = new Intl.DateTimeFormat(undefined, {
@@ -22,16 +20,7 @@
   })
 </script>
 
-<div
-  bind:this={timelineElement}
-  class="timeline {klass}"
-  class:hasNext
-  style="
-    --color-point: {colorPoint};
-    --color-line: {colorLine};
-    {style}
-  "
->
+<div bind:this={timelineElement} class="timeline {klass}" {style} class:hasNext>
   {#each events as { title, detail, time }, index}
     <div class="time">
       {disableFormatTime ? time : intl.format(new Date(time))}
@@ -39,7 +28,9 @@
 
     <div class="decorator">
       <div class="dot" />
-      <div class="line" class:hide={!hasNext && index === events.length - 1} />
+      {#if !(!hasNext && index === events.length - 1)}
+        <div class="line" />
+      {/if}
     </div>
 
     <div class="content">

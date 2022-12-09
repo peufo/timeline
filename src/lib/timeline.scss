@@ -34,22 +34,22 @@
   flex-direction: column;
   gap: 10px;
   align-items: center;
+}
 
-  & > .dot {
-    flex-shrink: 0;
-    width: 12px;
-    height: 12px;
-    background-color: var(--color-point);
-    border-radius: 50%;
-    margin-top: 3px;
-  }
+.dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  background-color: #999999;
+  border-radius: 50%;
+  margin-top: 3px;
+}
 
-  & > .line:not(.hide) {
-    width: 2px;
-    height: 100%;
-    background-color: var(--color-line);
-    border-radius: 1px;
-  }
+.line {
+  width: 2px;
+  height: 100%;
+  background-color: #bbbbbb;
+  border-radius: 1px;
 }
 
 button {
