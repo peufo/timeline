@@ -1,35 +1,10 @@
 <script lang="ts">
-  import { browser } from '$app/environment'
-
+  import TimeLineEditable from '$lib/TimeLineEditable.svelte'
+  import { item } from '$lib/store'
+  import Save from '$lib/Save.svelte'
   import '$lib/assets/index.css'
 
-  import TimeLineEditable from '$lib/TimeLineEditable.svelte'
-  import { item, itemKey, defaultStoreItem } from '$lib/store'
-
   let timelineElement: HTMLDivElement
-
-  let itemKeys = Object.keys(browser ? localStorage : {})
-    .filter((k) => k.startsWith('item-'))
-    .map((key) => key.replace('item-', ''))
-
-  function handleAddSave() {
-    const defaultKey = `save-${itemKeys.length}`
-    const key = prompt('Nom de la sauvegarde', defaultKey) || defaultKey
-    $itemKey = key
-    itemKeys = [...itemKeys, key]
-  }
-
-  function handleRemove() {
-    if (!confirm('Ètes-vous sûr ?')) return
-    if ($itemKey === 'default') {
-      $item = JSON.parse(JSON.stringify(defaultStoreItem))
-      return
-    }
-    const index = itemKeys.indexOf($itemKey)
-    itemKeys = [...itemKeys.slice(0, index), ...itemKeys.slice(index + 1)]
-    localStorage.removeItem(`item-${$itemKey}`)
-    $itemKey = 'default'
-  }
 
   async function handleExport() {
     const printJS = (await import('print-js')).default
@@ -45,31 +20,7 @@
 <div class="wrapper">
   <header>
     <h2>Timeline éditable</h2>
-    <div class="save">
-      <label title="Sélectioner une sauvegarde">
-        Sauvegarde:
-        <select bind:value={$itemKey}>
-          {#each itemKeys as key}
-            <option value={key}>{key}</option>
-          {/each}
-        </select>
-      </label>
-
-      <button
-        class="add"
-        title="Ajouter une sauvegarde"
-        on:click={handleAddSave}
-      >
-        +
-      </button>
-      <button
-        class="remove"
-        title="Supprimer une sauvegarde"
-        on:click={handleRemove}
-      >
-        -
-      </button>
-    </div>
+    <Save />
   </header>
 
   <main>
@@ -117,9 +68,6 @@
   header {
     display: flex;
     align-items: center;
-    & > .save {
-      margin-left: auto;
-    }
   }
 
   main {
@@ -128,8 +76,7 @@
     gap: 1em;
   }
 
-  main > div,
-  .save {
+  main > div {
     border: 2px solid grey;
     border-radius: 4px;
     padding: 1em;
@@ -148,7 +95,6 @@
     gap: 1em;
     min-width: 300px;
   }
-  .save,
   .control {
     background-color: #eee;
   }
@@ -156,12 +102,5 @@
   button {
     border: 1px grey solid;
     border-radius: 3px;
-  }
-
-  .add {
-    background: #a7d49b;
-  }
-  .remove {
-    background: #dda15e;
   }
 </style>
