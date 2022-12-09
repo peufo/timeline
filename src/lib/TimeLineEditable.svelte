@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import type { TimelineEventEditable } from '$lib/types'
   import '$lib/timeline.scss'
 
@@ -10,7 +11,7 @@
   export let style = ''
   export let colorPoint = 'rgb(131, 131, 131)'
   export let colorLine = 'rgb(171, 171, 171)'
-  export let timelineElement: HTMLDivElement | undefined
+  export let timelineElement: HTMLDivElement | undefined = undefined
 
   const newEvent: TimelineEventEditable = {
     title: 'Future',
@@ -29,6 +30,18 @@
   function removeEvent(index: number) {
     events = [...events.slice(0, index), ...events.slice(index + 1)]
   }
+
+  let styleElement: HTMLStyleElement
+
+  onMount(() => {
+    styleElement = document.createElement('style')
+    document.head.appendChild(styleElement)
+    return () => {
+      document.head.removeChild(styleElement)
+    }
+  })
+
+  $: if (styleElement) styleElement.innerHTML = style
 </script>
 
 <div
@@ -38,7 +51,6 @@
   style="
     --color-point: {colorPoint};
     --color-line: {colorLine};
-    {style}
   "
 >
   {#each events as { title, detail, time }, index}
@@ -74,3 +86,5 @@
     </div>
   {/each}
 </div>
+
+<style bind:innerHTML={style}></style>

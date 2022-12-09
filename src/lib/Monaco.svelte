@@ -6,10 +6,8 @@
   import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 
   let monaco: typeof Monaco
-  let extraLibPlotly: Monaco.IDisposable
   let extraLib: Monaco.IDisposable
   let editorsMounted = 0
-  let isSetup = false
 
   async function setup() {
     if (monaco) return
@@ -38,19 +36,7 @@
   }
 
   async function unMount() {
-    extraLibPlotly?.dispose()
     extraLib?.dispose()
-  }
-
-  export async function setExtraLibPlotly() {
-    if (!monaco) await setup()
-    extraLibPlotly?.dispose()
-    const PlotlyTypeRaw = (await import('$assets/plotly.d.ts?raw')).default
-    const PlotlyTypeUrl = (await import('$assets/plotly.d.ts?url')).default
-    extraLibPlotly = monaco.languages.typescript.typescriptDefaults.addExtraLib(
-      PlotlyTypeRaw,
-      PlotlyTypeUrl
-    )
   }
 
   export async function setExtraLib(str: string) {
@@ -98,16 +84,18 @@
   function handleChange(event: Monaco.editor.IModelContentChangedEvent) {
     value = editor.getValue()
   }
+
+  $: if (value !== editor?.getValue()) editor?.setValue(value)
 </script>
 
-<div bind:this={divEl} class="h-screen container" />
+<div bind:this={divEl} class="container" />
 
 <style>
   .container {
     height: 100%;
-    /*
+    min-width: 300px;
+    min-height: 300px;
     border: #ccc solid 1px;
-    border-radius: 5px;
-    */
+    border-radius: 3px;
   }
 </style>

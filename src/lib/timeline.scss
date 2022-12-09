@@ -1,5 +1,4 @@
 .timeline {
-  margin: 10px 20px;
   display: grid;
   grid-template-columns: max-content 12px 1fr;
   justify-content: stretch;
@@ -57,9 +56,11 @@ button {
   border: 1px grey solid;
   border-radius: 3px;
 }
+
 .add {
   background: #a7d49b;
 }
+
 .remove {
   background: #dda15e;
 }

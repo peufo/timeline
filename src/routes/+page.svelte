@@ -3,6 +3,7 @@
   import { item } from '$lib/store'
   import Save from '$lib/Save.svelte'
   import '$lib/assets/index.css'
+  import Monaco from '$lib/Monaco.svelte'
 
   let timelineElement: HTMLDivElement
 
@@ -26,16 +27,8 @@
   <main>
     <div class="control">
       <label>
-        Couleur des points
-        <input type="color" bind:value={$item.control.colorPoint} />
-      </label>
-      <label>
-        Couleur des lignes
-        <input type="color" bind:value={$item.control.colorLine} />
-      </label>
-      <label>
         Afficher la dernière ligne
-        <input type="checkbox" bind:checked={$item.control.hasNext} />
+        <input type="checkbox" bind:checked={$item.hasNext} />
       </label>
 
       <!--
@@ -43,6 +36,13 @@
           Chercher une police d'écriture
         </a>
       -->
+      <div>
+        <span>Style personnalisé</span>
+        <Monaco
+          bind:value={$item.style}
+          options={{ language: 'css', lineNumbers: 'off' }}
+        />
+      </div>
 
       <button on:click={handleExport}>
         <b>EXPORTER</b>
@@ -52,8 +52,8 @@
       <TimeLineEditable
         bind:timelineElement
         bind:events={$item.events}
-        {...$item.control}
-        style="font-family: Roboto, sans-serif!important;"
+        hasNext={$item.hasNext}
+        style={$item.style}
       />
     </div>
   </main>

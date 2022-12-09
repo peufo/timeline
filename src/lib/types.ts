@@ -7,9 +7,3 @@ export type TimelineEventEditable = {
 export type TimeLineEvent = TimelineEventEditable & {
   time: string | number | Date
 }
-
-export type Control = {
-  colorPoint: string
-  colorLine: string
-  hasNext: boolean
-}

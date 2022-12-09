@@ -1,18 +1,27 @@
+import type { ComponentProps } from 'svelte'
 import { writable } from 'svelte/store'
+import type TimeLineEditable from '$lib/TimeLineEditable.svelte'
 import { browser } from '$app/environment'
-import type { TimelineEventEditable, Control } from './types'
 
-type StoreItem = {
-  control: Control
-  events: TimelineEventEditable[]
-}
+type StoreItem = ComponentProps<TimeLineEditable>
+
+const defaultStyle = [
+  '.dot {',
+  '\tbackground: #999999;',
+  '}',
+  '',
+  '.line {',
+  '\tcolor: #bbbbbb;',
+  '}',
+  '',
+  '.time {',
+  '\tcolor: blue;',
+  '}',
+].join('\n')
 
 export const defaultStoreItem: StoreItem = {
-  control: {
-    colorPoint: '#999999',
-    colorLine: '#bbbbbb',
-    hasNext: true,
-  },
+  hasNext: true,
+  style: defaultStyle,
   events: [
     {
       title: `Le charbon`,
