@@ -1,6 +1,8 @@
 <script lang="ts">
   import { browser } from '$app/environment'
 
+  import '$lib/assets/index.css'
+
   import TimeLine from '$lib/TimeLine.svelte'
   import { item, itemKey, defaultStoreItem } from '$lib/store'
 
@@ -102,6 +104,7 @@
         disableFormatTime
         editable
         {...$item.control}
+        style="font-family: Roboto, sans-serif!important;"
       />
     </div>
   </main>
