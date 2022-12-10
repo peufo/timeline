@@ -57,6 +57,8 @@
       <b class="title" contenteditable="true" bind:innerHTML={title} />
       {#if detail}
         <p class="detail" contenteditable="true" bind:innerHTML={detail} />
+      {:else}
+        <div style="height: 1em;" />
       {/if}
       <div class="edit">
         {#if !detail}
