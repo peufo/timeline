@@ -55,8 +55,17 @@
 
     <div class="content">
       <b class="title" contenteditable="true" bind:innerHTML={title} />
-      <div class="detail" contenteditable="true" bind:innerHTML={detail} />
+      {#if detail}
+        <p class="detail" contenteditable="true" bind:innerHTML={detail} />
+      {/if}
       <div class="edit">
+        {#if !detail}
+          <button
+            class="add"
+            on:click={() => (detail = 'detail...')}
+            title="Ajouter detail">+ detail</button
+          >
+        {/if}
         <button
           class="add"
           on:click={() => addEvent(index)}
