@@ -21,7 +21,7 @@
   .edit {
     display: none;
     position: absolute;
-    right: -1em;
+    right: 4px;
     top: 0;
   }
   &:hover > .edit {
@@ -69,4 +69,9 @@ button {
 
 .remove {
   background: #dda15e;
+}
+
+.add,
+.remove {
+  width: 22px;
 }

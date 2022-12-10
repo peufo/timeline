@@ -1,7 +1,7 @@
 <script lang="ts">
   import TimeLineEditable from '$lib/TimeLineEditable.svelte'
   import { timelineStore } from '$lib/store'
-  import Save from '$lib/Save.svelte'
+  import LocalStorage from '$lib/LocalStorage.svelte'
   import '$lib/assets/index.css'
   import Monaco from '$lib/Monaco.svelte'
 
@@ -23,37 +23,46 @@
 <div class="wrapper">
   <header>
     <h2>Timeline éditable</h2>
-    <Save />
   </header>
 
   <main>
-    <div class="control">
-      <label>
-        Afficher la dernière ligne
-        <input type="checkbox" bind:checked={$timeLineItem.hasNext} />
-      </label>
+    <div>
+      <div style="display: flex;">
+        <div style="flex-grow: 1;" />
+        <LocalStorage store={timelineStore} />
+      </div>
+      <div class="container store style-container">
+        <Monaco
+          bind:value={$timeLineItem.style}
+          options={{ language: 'css', lineNumbers: 'off' }}
+        />
+      </div>
 
-      <!--
-        <a href="https://www.cdnfonts.com/" target="_blank" rel="noreferrer">
-          Chercher une police d'écriture
-        </a>
-      -->
-      <Monaco
-        bind:value={$timeLineItem.style}
-        options={{ language: 'css', lineNumbers: 'off' }}
-      />
+      <div class="container options-container">
+        <label>
+          Afficher la dernière ligne
+          <input type="checkbox" bind:checked={$timeLineItem.hasNext} />
+        </label>
+      </div>
+    </div>
 
+    <div>
+      <div style="display: flex;">
+        <div style="flex-grow: 1;" />
+        <LocalStorage store={timelineStore} />
+      </div>
+
+      <div class="container store timeline-container">
+        <TimeLineEditable
+          bind:timelineElement
+          bind:events={$timeLineItem.events}
+          hasNext={$timeLineItem.hasNext}
+          style={$timeLineItem.style}
+        />
+      </div>
       <button on:click={handleExport}>
         <b>EXPORTER</b>
       </button>
-    </div>
-    <div class="timeline">
-      <TimeLineEditable
-        bind:timelineElement
-        bind:events={$timeLineItem.events}
-        hasNext={$timeLineItem.hasNext}
-        style={$timeLineItem.style}
-      />
     </div>
   </main>
 </div>
@@ -75,25 +84,28 @@
     gap: 1em;
   }
 
-  main > div {
+  .container {
     border: 2px solid grey;
     border-radius: 4px;
+  }
+
+  .container.store {
+    border-top-right-radius: 0;
+  }
+
+  .timeline-container {
+    width: max-content;
+    max-width: 700px;
     padding: 1em;
   }
 
-  .timeline {
-    width: max-content;
-    flex-grow: 1;
+  .style-container {
+    width: 340px;
   }
 
-  .control {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1em;
-    min-width: 300px;
-  }
-  .control {
+  .options-container {
+    margin-top: 0.5em;
+    padding: 1em;
     background-color: #eee;
   }
 
