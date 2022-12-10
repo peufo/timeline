@@ -1,9 +1,11 @@
 <script lang="ts">
   import TimeLineEditable from '$lib/TimeLineEditable.svelte'
-  import { item } from '$lib/store'
+  import { timelineStore } from '$lib/store'
   import Save from '$lib/Save.svelte'
   import '$lib/assets/index.css'
   import Monaco from '$lib/Monaco.svelte'
+
+  const timeLineItem = timelineStore.item
 
   let timelineElement: HTMLDivElement
 
@@ -28,7 +30,7 @@
     <div class="control">
       <label>
         Afficher la dernière ligne
-        <input type="checkbox" bind:checked={$item.hasNext} />
+        <input type="checkbox" bind:checked={$timeLineItem.hasNext} />
       </label>
 
       <!--
@@ -37,7 +39,7 @@
         </a>
       -->
       <Monaco
-        bind:value={$item.style}
+        bind:value={$timeLineItem.style}
         options={{ language: 'css', lineNumbers: 'off' }}
       />
 
@@ -48,9 +50,9 @@
     <div class="timeline">
       <TimeLineEditable
         bind:timelineElement
-        bind:events={$item.events}
-        hasNext={$item.hasNext}
-        style={$item.style}
+        bind:events={$timeLineItem.events}
+        hasNext={$timeLineItem.hasNext}
+        style={$timeLineItem.style}
       />
     </div>
   </main>

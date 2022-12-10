@@ -1,9 +1,21 @@
 import type { ComponentProps } from 'svelte'
-import { writable } from 'svelte/store'
-import type TimeLineEditable from '$lib/TimeLineEditable.svelte'
-import { browser } from '$app/environment'
+import type TimeLineEditable from './TimeLineEditable.svelte'
+import { createLocalStorage } from '$lib/localstorage'
 
-type StoreItem = ComponentProps<TimeLineEditable>
+const templatesModules = import.meta.glob('./templates/*.css', {
+  import: 'default',
+})
+
+initTemplates()
+async function initTemplates() {
+  for (const path in templatesModules) {
+    const css = await templatesModules[path]()
+    const name = path.replace('./templates/', '').replace('.css', '')
+    console.log(name, css)
+  }
+}
+
+type TimeLineProps = ComponentProps<TimeLineEditable>
 
 const defaultStyle = `.dot {
 	background: #999999;
@@ -26,45 +38,26 @@ const defaultStyle = `.dot {
 	font-size: small;
 }`
 
-export const defaultStoreItem: StoreItem = {
+const defaultEvent = [
+  {
+    title: `Le charbon`,
+    time: '1850',
+    detail: `Le charbon devient la source d'énergie principal`,
+  },
+  {
+    title: `Electricité`,
+    time: '1885',
+    detail: `Début de l'électricité`,
+  },
+]
+
+export const defaultTimeline: TimeLineProps = {
   hasNext: true,
   style: defaultStyle,
-  events: [
-    {
-      title: `Le charbon`,
-      time: '1850',
-      detail: `Le charbon devient la source d'énergie principal`,
-    },
-    {
-      title: `Electricité`,
-      time: '1885',
-      detail: `Début de l'électricité`,
-    },
-  ],
+  events: defaultEvent,
 }
 
-let itemKeyValue =
-  (browser && localStorage.getItem('selected-key')) || 'default'
-
-export const itemKey = writable<string>(itemKeyValue)
-export const item = writable<StoreItem>(readItem(itemKeyValue))
-
-item.subscribe((newItem) => saveItem(itemKeyValue, newItem))
-itemKey.subscribe((key) => {
-  if (!browser) return
-  itemKeyValue = key
-  localStorage.setItem('selected-key', key)
-  item.set(readItem(key))
-})
-
-function saveItem(key: string, item: StoreItem) {
-  if (!browser) return
-  localStorage.setItem(`item-${key}`, JSON.stringify(item))
-}
-
-function readItem(key: string): StoreItem {
-  if (!browser) return defaultStoreItem
-  const item = localStorage.getItem(`item-${key}`)
-  if (!item) return defaultStoreItem
-  return JSON.parse(item)
-}
+export const timelineStore = createLocalStorage<TimeLineProps>(
+  'timeline',
+  defaultTimeline
+)
