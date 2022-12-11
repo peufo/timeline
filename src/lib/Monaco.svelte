@@ -93,7 +93,7 @@
 <style>
   .container {
     height: 100%;
-    width: 340px;
+    width: 100%;
     min-height: 400px;
     /*border: #ccc solid 1px;
     border-radius: 3px;*/

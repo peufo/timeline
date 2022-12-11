@@ -112,7 +112,7 @@
   }
 
   .style-container {
-    width: 340px;
+    width: 440px;
     padding: 8px 0;
   }
 
