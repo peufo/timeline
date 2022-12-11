@@ -3,12 +3,13 @@
   import type { createLocalStorage } from '$lib/localstorage'
 
   export let store: ReturnType<typeof createLocalStorage>
+  export let style = ''
 
   const key = store.key
   const keys = store.keys
 </script>
 
-<div class="container">
+<div class="container" {style}>
   <select bind:value={$key} title="Sélectioner une sauvegarde">
     {#each $keys as key}
       <option value={key}>{key}</option>
@@ -18,7 +19,7 @@
   <button
     class="add"
     title="Ajouter une sauvegarde"
-    on:click={() => store.addItem()}
+    on:click={() => store.createItem()}
   >
     +
   </button>
@@ -33,7 +34,7 @@
 
 <style lang="scss">
   .container {
-    background-color: #eee;
+    background-color: #fff;
     border-left: 2px solid grey;
     border-top: 2px solid grey;
     border-right: 2px solid grey;

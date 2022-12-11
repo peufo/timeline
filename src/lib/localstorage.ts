@@ -17,12 +17,20 @@ export function createLocalStorage<T = unknown>(
   let keyValue = readKey()
 
   const key = writable<string>(keyValue)
+  const keys = writable<string[]>(getKeys())
   const item = writable<T>(readItem(keyValue))
-  const keys = writable<string[]>(
-    Object.keys(browser ? localStorage : {})
+
+  key.subscribe((_key) => {
+    writeKey(_key)
+    item.set(readItem(_key))
+  })
+  item.subscribe((_item) => writeItem(keyValue, _item))
+
+  function getKeys() {
+    return Object.keys(browser ? localStorage : {})
       .filter((k) => k.startsWith(`${prefix}-`))
       .map((key) => key.replace(`${prefix}-`, ''))
-  )
+  }
 
   function readKey() {
     if (!browser) return defaultKey
@@ -35,25 +43,20 @@ export function createLocalStorage<T = unknown>(
     localStorage.setItem(`key-${prefix}`, value)
   }
 
+  function readItem(key: string): T {
+    if (!browser) return defaultValue
+    const item = localStorage.getItem(`${prefix}-${key}`)
+    if (item) return JSON.parse(item)
+    keys.update((_keys) => (_keys.includes(key) ? _keys : [..._keys, key]))
+    return defaultValue
+  }
+
   function writeItem(key: string, item: T) {
     if (!browser) return
     localStorage.setItem(`${prefix}-${key}`, JSON.stringify(item))
   }
 
-  function readItem(key: string): T {
-    if (!browser) return defaultValue
-    const item = localStorage.getItem(`${prefix}-${key}`)
-    if (!item) return defaultValue
-    return JSON.parse(item)
-  }
-
-  item.subscribe((newItem) => writeItem(keyValue, newItem))
-  key.subscribe((key) => {
-    writeKey(key)
-    item.set(readItem(key))
-  })
-
-  function addItem() {
+  function createItem() {
     keys.update((_keys) => {
       const defaultKeyValue = `${prefix}-${_keys.length}`
       const newKeyValue = prompt(promptMessage, defaultKeyValue)
@@ -62,6 +65,7 @@ export function createLocalStorage<T = unknown>(
       return [..._keys, newKeyValue]
     })
   }
+
   function deleteItem() {
     if (!confirm('Ètes-vous sûr ?')) return
     key.update((_key) => {
@@ -73,12 +77,20 @@ export function createLocalStorage<T = unknown>(
       return defaultKey
     })
   }
+  function ensureItem(_key: string, item: T) {
+    if (!browser) return
+    const existingItem = localStorage.getItem(`${prefix}-${_key}`)
+    if (existingItem) return
+    writeItem(_key, item)
+    keys.update((_keys) => [..._keys, _key])
+  }
 
   return {
     item,
     key,
     keys,
-    addItem,
+    createItem,
+    ensureItem,
     deleteItem,
   }
 }

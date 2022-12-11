@@ -41,8 +41,9 @@
 
   $: if (styleElement) {
     styleElement.innerHTML = style
+    console.log({ style })
     // nécéssaire en dev ...
-    document.head.appendChild(styleElement)
+    // document.head.appendChild(styleElement)
   }
 </script>
 

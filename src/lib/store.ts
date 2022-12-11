@@ -29,17 +29,18 @@ export const timelineStore = createLocalStorage<TimeLineProps>(
 )
 
 export const styleStore = createLocalStorage<string>('style', minimal, {
-  defaultKey: 'Minimal',
+  defaultKey: 'minimal',
   promptMessage: 'Nouveau style',
 })
 const stylesModules = import.meta.glob('./templates/*.css', {
   import: 'default',
+  as: 'raw',
 })
 loadTemplates()
 async function loadTemplates() {
   for (const path in stylesModules) {
-    const css = await stylesModules[path]()
+    const css = (await stylesModules[path]()) as string
     const name = path.replace('./templates/', '').replace('.css', '')
-    // console.log(name, css)
+    styleStore.ensureItem(name, css)
   }
 }

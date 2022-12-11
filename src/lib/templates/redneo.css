@@ -1,0 +1,35 @@
+/* See https://neumorphism.io/#fafafa */
+
+.timeline {
+  --red: #f05c5c;
+  --red-text: #ffe3e3;
+  background-color: var(--red);
+  color: var(--red-text);
+}
+
+.dot {
+  display: none;
+}
+
+.line {
+  translate: 0px -5px;
+  border-radius: 2px;
+  background: var(--red);
+  box-shadow: 1px 1px 2px #cc4e4e, -1px -1px 2px #ff6a6a;
+}
+
+.time {
+  align-self: start;
+  padding: 0.4em 1em;
+  margin-right: 0.4em;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #d85353, #ff6262);
+  box-shadow: 4px 4px 9px #df5656, -4px -4px 9px #ff6262;
+}
+
+.title {
+}
+
+.detail {
+  font-size: small;
+}

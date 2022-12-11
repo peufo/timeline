@@ -21,16 +21,17 @@
   }
 </script>
 
-<div class="wrapper">
-  <header>
-    <h2>Timeline éditable</h2>
-  </header>
+<header>
+  <h2>Timeline éditable</h2>
+</header>
 
+<div class="wrapper">
   <main>
     <div>
-      <div style="display: flex;">
+      <div style="display: flex; align-items: center;">
+        <b style="margin-left: 4px;">STYLE</b>
         <div style="flex-grow: 1;" />
-        <LocalStorage store={styleStore} />
+        <LocalStorage store={styleStore} style="translate: 0 2px;" />
       </div>
       <div class="container store style-container">
         <Monaco
@@ -48,9 +49,10 @@
     </div>
 
     <div>
-      <div style="display: flex;">
+      <div style="display: flex; align-items: center;">
+        <b style="margin-left: 4px;">TIMELINE</b>
         <div style="flex-grow: 1;" />
-        <LocalStorage store={timelineStore} />
+        <LocalStorage store={timelineStore} style="translate: 0 2px;" />
       </div>
 
       <div class="container store timeline-container">
@@ -69,14 +71,21 @@
 </div>
 
 <style lang="scss">
-  .wrapper {
-    width: min-content;
-    margin: auto;
+  :global(body) {
+    margin: 0;
   }
 
   header {
     display: flex;
+    justify-content: center;
     align-items: center;
+    background: #eee;
+    margin-bottom: 3em;
+  }
+
+  .wrapper {
+    width: min-content;
+    margin: auto;
   }
 
   main {
@@ -97,11 +106,11 @@
   .timeline-container {
     width: max-content;
     max-width: 700px;
-    padding: 1em;
   }
 
   .style-container {
     width: 340px;
+    padding: 8px 0;
   }
 
   .options-container {
