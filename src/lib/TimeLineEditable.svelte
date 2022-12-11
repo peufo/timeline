@@ -17,7 +17,6 @@
     detail: 'Details...',
   }
   function addEvent(index: number) {
-    console.log(index)
     events = [
       ...events.slice(0, index),
       { ...newEvent },
