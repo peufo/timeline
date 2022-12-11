@@ -2,7 +2,7 @@
   import '$lib/assets/index.css'
   import type { createLocalStorage } from '$lib/localstorage'
 
-  export let store: ReturnType<typeof createLocalStorage>
+  export let store: ReturnType<typeof createLocalStorage<unknown>>
   export let style = ''
 
   const key = store.key

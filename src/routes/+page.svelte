@@ -63,9 +63,12 @@
           style={$styleItem}
         />
       </div>
-      <button on:click={handleExport}>
-        <b>EXPORTER</b>
-      </button>
+      <div style="display: flex; padding-top: 0.5em;">
+        <div style="flex-grow: 1;" />
+        <button on:click={handleExport}>
+          <b>EXPORTER</b>
+        </button>
+      </div>
     </div>
   </main>
 </div>
