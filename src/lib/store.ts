@@ -1,63 +1,45 @@
 import type { ComponentProps } from 'svelte'
-import type TimeLineEditable from './TimeLineEditable.svelte'
+import type TimeLineEditable from '$lib/TimeLineEditable.svelte'
+import minimal from '$lib/templates/minimal.css?raw'
 import { createLocalStorage } from '$lib/localstorage'
 
-const templatesModules = import.meta.glob('./templates/*.css', {
-  import: 'default',
-})
-
-initTemplates()
-async function initTemplates() {
-  for (const path in templatesModules) {
-    const css = await templatesModules[path]()
-    const name = path.replace('./templates/', '').replace('.css', '')
-    console.log(name, css)
-  }
-}
-
 type TimeLineProps = ComponentProps<TimeLineEditable>
-
-const defaultStyle = `.dot {
-	background: #999999;
-}
-
-.line {
-	background: #bbbbbb;
-}
-
-.time {
-	font-style: oblique;
-}
-
-.title {
-	text-transform: uppercase;
-}
-
-.detail {
-	color: #555;
-	font-size: small;
-}`
-
-const defaultEvent = [
-  {
-    title: `Le charbon`,
-    time: '1850',
-    detail: `Le charbon devient la source d'énergie principal`,
-  },
-  {
-    title: `Electricité`,
-    time: '1885',
-    detail: `Début de l'électricité`,
-  },
-]
-
-export const defaultTimeline: TimeLineProps = {
-  hasNext: true,
-  style: defaultStyle,
-  events: defaultEvent,
-}
-
 export const timelineStore = createLocalStorage<TimeLineProps>(
   'timeline',
-  defaultTimeline
+
+  {
+    hasNext: true,
+    events: [
+      {
+        title: `Le charbon`,
+        time: '1850',
+        detail: `Le charbon devient la source d'énergie principal`,
+      },
+      {
+        title: `Electricité`,
+        time: '1885',
+        detail: `Début de l'électricité`,
+      },
+    ],
+  },
+  {
+    defaultKey: `L'énergie`,
+    promptMessage: 'Nouvelle timeline',
+  }
 )
+
+export const styleStore = createLocalStorage<string>('style', minimal, {
+  defaultKey: 'Minimal',
+  promptMessage: 'Nouveau style',
+})
+const stylesModules = import.meta.glob('./templates/*.css', {
+  import: 'default',
+})
+loadTemplates()
+async function loadTemplates() {
+  for (const path in stylesModules) {
+    const css = await stylesModules[path]()
+    const name = path.replace('./templates/', '').replace('.css', '')
+    // console.log(name, css)
+  }
+}

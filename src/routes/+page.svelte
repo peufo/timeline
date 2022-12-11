@@ -1,11 +1,12 @@
 <script lang="ts">
   import TimeLineEditable from '$lib/TimeLineEditable.svelte'
-  import { timelineStore } from '$lib/store'
+  import { timelineStore, styleStore } from '$lib/store'
   import LocalStorage from '$lib/LocalStorage.svelte'
   import '$lib/assets/index.css'
   import Monaco from '$lib/Monaco.svelte'
 
   const timeLineItem = timelineStore.item
+  const styleItem = styleStore.item
 
   let timelineElement: HTMLDivElement
 
@@ -29,11 +30,11 @@
     <div>
       <div style="display: flex;">
         <div style="flex-grow: 1;" />
-        <LocalStorage store={timelineStore} />
+        <LocalStorage store={styleStore} />
       </div>
       <div class="container store style-container">
         <Monaco
-          bind:value={$timeLineItem.style}
+          bind:value={$styleItem}
           options={{ language: 'css', lineNumbers: 'off' }}
         />
       </div>
@@ -57,7 +58,7 @@
           bind:timelineElement
           bind:events={$timeLineItem.events}
           hasNext={$timeLineItem.hasNext}
-          style={$timeLineItem.style}
+          style={$styleItem}
         />
       </div>
       <button on:click={handleExport}>

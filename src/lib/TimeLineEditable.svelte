@@ -39,7 +39,11 @@
     }
   })
 
-  $: if (styleElement) styleElement.innerHTML = style
+  $: if (styleElement) {
+    styleElement.innerHTML = style
+    // nécéssaire en dev ...
+    document.head.appendChild(styleElement)
+  }
 </script>
 
 <div bind:this={timelineElement} class="timeline {klass}" class:hasNext>

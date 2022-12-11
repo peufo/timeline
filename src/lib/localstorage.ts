@@ -1,9 +1,18 @@
 import { writable } from 'svelte/store'
 import { browser } from '$app/environment'
 
+interface CreateLocalStorageOptions {
+  defaultKey?: string
+  promptMessage?: string
+}
+
 export function createLocalStorage<T = unknown>(
   prefix: string,
-  defaultValue: T
+  defaultValue: T,
+  {
+    defaultKey = 'default',
+    promptMessage = 'New save',
+  }: CreateLocalStorageOptions = {}
 ) {
   let keyValue = readKey()
 
@@ -16,8 +25,8 @@ export function createLocalStorage<T = unknown>(
   )
 
   function readKey() {
-    if (!browser) return 'default'
-    return localStorage.getItem(`key-${prefix}`) || 'default'
+    if (!browser) return defaultKey
+    return localStorage.getItem(`key-${prefix}`) || defaultKey
   }
 
   function writeKey(value: string) {
@@ -46,9 +55,9 @@ export function createLocalStorage<T = unknown>(
 
   function addItem() {
     keys.update((_keys) => {
-      const defaultKeyValue = `save-${_keys.length}`
-      const newKeyValue =
-        prompt('Nom de la sauvegarde', defaultKeyValue) || defaultKeyValue
+      const defaultKeyValue = `${prefix}-${_keys.length}`
+      const newKeyValue = prompt(promptMessage, defaultKeyValue)
+      if (!newKeyValue) return _keys
       key.set(newKeyValue)
       return [..._keys, newKeyValue]
     })
@@ -61,7 +70,7 @@ export function createLocalStorage<T = unknown>(
         localStorage.removeItem(`${prefix}-${_key}`)
         return [..._keys.slice(0, index), ..._keys.slice(index + 1)]
       })
-      return 'default'
+      return defaultKey
     })
   }
 
