@@ -12,9 +12,9 @@
   export let timelineElement: HTMLDivElement | undefined = undefined
 
   const newEvent: TimelineEventEditable = {
-    title: 'Future',
+    title: 'Nouvelle étape',
     time: '2042',
-    detail: 'Ca déchire',
+    detail: 'Details...',
   }
   function addEvent(index: number) {
     console.log(index)
