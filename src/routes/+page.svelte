@@ -78,11 +78,6 @@
     border-top-right-radius: 0;
   }
 
-  .timeline {
-    width: max-content;
-    max-width: 700px;
-  }
-
   .style-container {
     position: sticky;
     top: 1em;

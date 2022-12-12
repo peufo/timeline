@@ -3,7 +3,7 @@
   grid-template-columns: max-content 12px 1fr;
   justify-content: stretch;
   padding: 1em;
-  /*max-width: 210mm;*/
+  max-width: 210mm;
   -webkit-print-color-adjust: exact !important;
 }
 
@@ -11,6 +11,7 @@
 .content {
   padding: 6px 16px;
   position: relative;
+  white-space: wrap;
 }
 
 .time {
