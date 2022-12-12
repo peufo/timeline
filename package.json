@@ -22,8 +22,10 @@
   },
   "type": "module",
   "dependencies": {
+    "html-to-image": "^1.11.1",
     "monaco-editor": "^0.34.1",
     "print-js": "^1.6.0",
-    "sass": "^1.56.1"
+    "sass": "^1.56.1",
+    "svelte-notifications": "^0.9.98"
   }
 }

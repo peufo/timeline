@@ -4,21 +4,12 @@
   import LocalStorage from '$lib/LocalStorage.svelte'
   import '$lib/assets/index.css'
   import Monaco from '$lib/Monaco.svelte'
+  import Export from '$lib/Export.svelte'
 
   const timeLineItem = timelineStore.item
   const styleItem = styleStore.item
 
   let timelineElement: HTMLDivElement
-
-  async function handleExport() {
-    const printJS = (await import('print-js')).default
-    printJS({
-      printable: timelineElement,
-      type: 'html',
-      targetStyles: ['*'],
-      font_size: undefined,
-    })
-  }
 </script>
 
 <header>
@@ -65,9 +56,7 @@
       </div>
       <div style="display: flex; padding-top: 0.5em;">
         <div style="flex-grow: 1;" />
-        <button on:click={handleExport}>
-          <b>EXPORTER</b>
-        </button>
+        <Export elem={timelineElement} />
       </div>
     </div>
   </main>
@@ -120,10 +109,5 @@
     margin-top: 0.5em;
     padding: 1em;
     background-color: #eee;
-  }
-
-  button {
-    border: 1px grey solid;
-    border-radius: 3px;
   }
 </style>
