@@ -13,89 +13,100 @@
 </script>
 
 <div class="wrapper">
-  <main>
-    <div>
-      <div style="display: flex; align-items: center;">
-        <b style="margin-left: 4px;">STYLE</b>
-        <div style="flex-grow: 1;" />
-        <LocalStorage store={styleStore} style="translate: 0 2px;" />
-      </div>
-      <div class="container store style-container">
-        <Monaco
-          bind:value={$styleItem}
-          options={{ language: 'css', lineNumbers: 'off' }}
-        />
-      </div>
-
-      <div class="container options-container">
-        <label>
-          Afficher la dernière ligne
-          <input type="checkbox" bind:checked={$timeLineItem.hasNext} />
-        </label>
-      </div>
+  <div class="style-container">
+    <div class="flex-center">
+      <b style="margin-left: 4px;">STYLE</b>
+      <div class="grow-1" />
+      <LocalStorage store={styleStore} style="translate: 0 2px;" />
     </div>
 
-    <div>
-      <div style="display: flex; align-items: center;">
-        <b style="margin-left: 4px;">TIMELINE</b>
-        <div style="flex-grow: 1;" />
-        <LocalStorage store={timelineStore} style="translate: 0 2px;" />
-      </div>
-
-      <div class="container store timeline-container">
-        <TimeLineEditable
-          bind:timelineElement
-          bind:events={$timeLineItem.events}
-          hasNext={$timeLineItem.hasNext}
-          style={$styleItem}
-        />
-      </div>
-      <div style="display: flex; padding-top: 0.5em;">
-        <div style="flex-grow: 1;" />
-        <Export elem={timelineElement} />
-      </div>
+    <div class="border radius-top-right-0 style grow-1">
+      <Monaco
+        bind:value={$styleItem}
+        options={{ language: 'css', lineNumbers: 'off' }}
+      />
     </div>
-  </main>
+
+    <div class="border options">
+      <label>
+        Afficher la dernière ligne
+        <input type="checkbox" bind:checked={$timeLineItem.hasNext} />
+      </label>
+    </div>
+  </div>
+
+  <div>
+    <div class="flex-center">
+      <b style="margin-left: 4px;">TIMELINE</b>
+      <div class="grow-1" />
+      <LocalStorage store={timelineStore} style="translate: 0 2px;" />
+    </div>
+
+    <div class="timeline border radius-top-right-0">
+      <TimeLineEditable
+        bind:timelineElement
+        bind:events={$timeLineItem.events}
+        hasNext={$timeLineItem.hasNext}
+        style={$styleItem}
+      />
+    </div>
+    <div style="display: flex; padding-top: 0.5em;">
+      <div class="grow-1" />
+      <Export elem={timelineElement} />
+    </div>
+  </div>
 </div>
 
 <style lang="scss">
-  :global(body) {
-    margin: 0;
-  }
-
   .wrapper {
-    width: min-content;
-    margin: auto;
-  }
-
-  main {
-    display: flex;
-    align-items: flex-start;
+    --style-width: 440px;
+    display: grid;
     gap: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    grid-template-columns: max-content 1fr var(--style-width);
+    justify-items: center;
+    align-items: start;
   }
 
-  .container {
+  .border {
     border: 2px solid grey;
     border-radius: 4px;
   }
 
-  .container.store {
+  .border.radius-top-right-0 {
     border-top-right-radius: 0;
   }
 
-  .timeline-container {
+  .timeline {
     width: max-content;
     max-width: 700px;
   }
 
   .style-container {
-    width: 440px;
-    padding: 8px 0;
+    position: sticky;
+    top: 1em;
+    height: calc(100vh - 14em);
+    display: flex;
+    flex-direction: column;
+    > .style {
+      width: var(--style-width);
+      padding: 8px 0;
+    }
   }
 
-  .options-container {
+  .options {
     margin-top: 0.5em;
     padding: 1em;
     background-color: #eee;
+  }
+
+  .flex-center {
+    display: flex;
+    align-items: center;
+  }
+
+  .grow-1 {
+    flex-grow: 1;
   }
 </style>

@@ -33,3 +33,10 @@
 </script>
 
 <button on:click={capture}>Capturer</button>
+
+<style>
+  button {
+    padding: 0.5em 1em;
+    text-transform: uppercase;
+  }
+</style>

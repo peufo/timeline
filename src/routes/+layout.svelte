@@ -13,13 +13,19 @@
     <footer>
       <div>Vite fait pour Marie ❤️</div>
       <div>
-        <a href="https://github.com/peufo/timeline">Voir le code sources </a>
+        <a href="https://github.com/peufo/timeline" target="_blanck">
+          Voir le code sources
+        </a>
       </div>
     </footer>
   </div>
 </Notifications>
 
 <style>
+  :global(body) {
+    margin: 0;
+  }
+
   .layout {
     min-height: 100vh;
     display: flex;
