@@ -12,10 +12,6 @@
   let timelineElement: HTMLDivElement
 </script>
 
-<header>
-  <h2>Timeline éditable</h2>
-</header>
-
 <div class="wrapper">
   <main>
     <div>
@@ -65,14 +61,6 @@
 <style lang="scss">
   :global(body) {
     margin: 0;
-  }
-
-  header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #eee;
-    margin-bottom: 3em;
   }
 
   .wrapper {
