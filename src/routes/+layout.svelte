@@ -22,10 +22,6 @@
 </Notifications>
 
 <style>
-  :global(body) {
-    margin: 0;
-  }
-
   .layout {
     min-height: 100vh;
     display: flex;
