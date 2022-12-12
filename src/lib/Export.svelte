@@ -12,7 +12,7 @@
         throw new Error('Secure context required (https://)')
       const blob = await toBlob(elem)
       if (!blob) throw new Error("L'image n'a pas pu être généré")
-      const data = [new window.ClipboardItem({ 'image/pngs': blob })]s
+      const data = [new window.ClipboardItem({ 'image/pngs': blob })]
       await navigator.clipboard.write(data)
       addNotification({
         type: 'success',
