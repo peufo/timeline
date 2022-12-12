@@ -8,10 +8,11 @@
 
   async function capture() {
     try {
+      if (location.protocol !== 'https:')
+        throw new Error('Secure context required (https://)')
       const blob = await toBlob(elem)
-
       if (!blob) throw new Error("L'image n'a pas pu être généré")
-      const data = [new window.ClipboardItem({ 'image/pngs': blob })]
+      const data = [new window.ClipboardItem({ 'image/pngs': blob })]s
       await navigator.clipboard.write(data)
       addNotification({
         type: 'success',
@@ -23,7 +24,7 @@
       console.error(error)
       addNotification({
         type: 'error',
-        text: 'Erreur lors de copie !',
+        text: error.message || 'Erreur',
         position: 'bottom-right',
         removeAfter: 3000,
       })
