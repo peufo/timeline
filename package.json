@@ -1,6 +1,7 @@
 {
   "name": "timeline-svelte",
   "version": "0.0.1",
+  "repository": "https://github.com/peufo/timeline",
   "scripts": {
     "dev": "vite dev --host",
     "build:site": "vite build",
