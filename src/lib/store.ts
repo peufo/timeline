@@ -12,7 +12,7 @@ export const timelineStore = createLocalStorage<TimeLineProps>(
       {
         time: 'hier',
         title: `J'ai fait`,
-        detail: `Le charbon devient la source d'énergie principal`,
+        detail: `Réparer un téléphone`,
       },
       {
         time: `aujourd'hui`,
