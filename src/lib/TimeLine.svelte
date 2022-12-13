@@ -1,13 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import type { TimeLineEvent } from '$lib/types'
+  import type { TimelineEvent } from '$lib/types'
   import '$lib/timeline.scss'
 
   let klass = ''
   export { klass as class }
   export let style = ''
   export let timelineElement: HTMLDivElement | undefined = undefined
-  export let events: TimeLineEvent[]
+  export let events: TimelineEvent[]
   export let hasNext = false
 
   const intl = new Intl.DateTimeFormat(undefined, {

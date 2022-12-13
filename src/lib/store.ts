@@ -6,24 +6,44 @@ import { createLocalStorage } from '$lib/localstorage'
 type TimeLineProps = ComponentProps<TimeLineEditable>
 export const timelineStore = createLocalStorage<TimeLineProps>(
   'timeline',
-
   {
     hasNext: true,
     events: [
       {
-        title: `Le charbon`,
-        time: '1850',
+        time: 'hier',
+        title: `J'ai fait`,
         detail: `Le charbon devient la source d'énergie principal`,
       },
       {
-        title: `Electricité`,
-        time: '1885',
-        detail: `Début de l'électricité`,
+        time: `aujourd'hui`,
+        title: `Je fait`,
+        detail: `Plein de trucs j'éspère... mais tranquille`,
+        subEvents: [
+          {
+            time: '10:00',
+            title: 'Réveille',
+            detail: 'Je sors de mon long sommeil',
+          },
+          {
+            time: '12:00',
+            title: 'Pauffinage de la timeline éditable',
+          },
+          {
+            time: '14:00',
+            title: 'Testes',
+            detail: `La nouvelle fonctionnalité "Sous-timeline" fonctionne plutôt bien.\nMais forcé de constater que les boutons couvre régulièrement le titre.\nCe qui le rend chiant à éditer... `,
+          },
+        ],
+      },
+      {
+        time: `demain`,
+        title: `Je ferai`,
+        detail: `Autre chose, parce que je suis aller assez loin dans le délire.`,
       },
     ],
   },
   {
-    defaultKey: `L'énergie`,
+    defaultKey: `timeline par défaut`,
     promptMessage: 'Nouvelle timeline',
   }
 )

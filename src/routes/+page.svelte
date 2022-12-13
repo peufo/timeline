@@ -1,6 +1,5 @@
 <script lang="ts">
   import TimeLineEditable from '$lib/TimeLineEditable.svelte'
-  import TimeLine from '$lib/TimeLine.svelte'
   import { timelineStore, styleStore } from '$lib/store'
   import LocalStorage from '$lib/LocalStorage.svelte'
   import '$lib/assets/index.css'
