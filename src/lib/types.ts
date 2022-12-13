@@ -1,7 +1,8 @@
 export type TimelineEventEditable = {
   title: string
-  detail?: string
   time: string
+  detail?: string
+  subEvents?: TimelineEventEditable[]
 }
 
 export type TimeLineEvent = TimelineEventEditable & {

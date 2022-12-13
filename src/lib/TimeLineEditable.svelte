@@ -3,13 +3,12 @@
   import type { TimelineEventEditable } from '$lib/types'
   import '$lib/timeline.scss'
 
-  export let events: TimelineEventEditable[]
-  export let hasNext = false
-
   let klass = ''
   export { klass as class }
   export let style = ''
   export let timelineElement: HTMLDivElement | undefined = undefined
+  export let events: TimelineEventEditable[]
+  export let hasNext = false
 
   const newEvent: TimelineEventEditable = {
     title: 'Nouvelle étape',
@@ -28,6 +27,10 @@
     events = [...events.slice(0, index), ...events.slice(index + 1)]
   }
 
+  function addSubEvents(index: number) {
+    events[index].subEvents = [{ ...newEvent }]
+  }
+
   let styleElement: HTMLStyleElement
 
   onMount(() => {
@@ -44,7 +47,7 @@
 </script>
 
 <div bind:this={timelineElement} class="timeline {klass}" class:hasNext>
-  {#each events as { title, detail, time }, index}
+  {#each events as { title, detail, time, subEvents }, index}
     <div class="time" contenteditable="true" bind:innerHTML={time} />
 
     <div class="decorator">
@@ -61,6 +64,11 @@
       {:else}
         <div style="height: 1em;" />
       {/if}
+
+      {#if subEvents && subEvents.length}
+        <svelte:self bind:events={subEvents} {hasNext} {style} class={klass} />
+      {/if}
+
       <div class="edit">
         {#if !detail}
           <button
@@ -69,15 +77,22 @@
             title="Ajouter detail">+ detail</button
           >
         {/if}
-        <button
-          class="add"
-          on:click={() => addEvent(index)}
-          title="Ajouter avant">↑</button
-        >
+        {#if !subEvents || !subEvents.length}
+          <button
+            class="add"
+            on:click={() => addSubEvents(index)}
+            title="Ajouter dedans">↘</button
+          >
+        {/if}
         <button
           class="add"
           on:click={() => addEvent(index + 1)}
           title="Ajouter après">↓</button
+        >
+        <button
+          class="add"
+          on:click={() => addEvent(index)}
+          title="Ajouter avant">↑</button
         >
         <button
           class="remove"

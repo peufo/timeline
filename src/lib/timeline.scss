@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: max-content 12px 1fr;
   justify-content: stretch;
-  padding: 1em;
+  padding: 1em 0;
   max-width: 210mm;
   -webkit-print-color-adjust: exact !important;
 }
