@@ -2,13 +2,12 @@
   import type { TimeLineEvent } from '$lib/types'
   import '$lib/timeline.scss'
 
-  export let events: TimeLineEvent[]
-  export let hasNext = false
-  export let disableFormatTime = false
   let klass = ''
   export { klass as class }
   export let style = ''
-  export let timelineElement: HTMLDivElement | undefined
+  export let timelineElement: HTMLDivElement | undefined = undefined
+  export let events: TimeLineEvent[]
+  export let hasNext = false
 
   const intl = new Intl.DateTimeFormat(undefined, {
     weekday: 'short',
@@ -21,9 +20,9 @@
 </script>
 
 <div bind:this={timelineElement} class="timeline {klass}" {style} class:hasNext>
-  {#each events as { title, detail, time }, index}
+  {#each events as { title, detail, time, date }, index}
     <div class="time">
-      {disableFormatTime ? time : intl.format(new Date(time))}
+      {!!date ? intl.format(date) : time}
     </div>
 
     <div class="decorator">

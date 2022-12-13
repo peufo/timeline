@@ -1,16 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import type { TimelineEventEditable } from '$lib/types'
+  import type { TimelineEvent } from '$lib/types'
   import '$lib/timeline.scss'
 
   let klass = ''
   export { klass as class }
   export let style = ''
   export let timelineElement: HTMLDivElement | undefined = undefined
-  export let events: TimelineEventEditable[]
+  export let events: TimelineEvent[]
   export let hasNext = false
 
-  const newEvent: TimelineEventEditable = {
+  const newEvent: TimelineEvent = {
     title: 'Nouvelle étape',
     time: '2042',
     detail: 'Details...',
@@ -32,7 +32,6 @@
   }
 
   let styleElement: HTMLStyleElement
-
   onMount(() => {
     styleElement = document.createElement('style')
     document.head.appendChild(styleElement)
@@ -40,7 +39,6 @@
       document.head.removeChild(styleElement)
     }
   })
-
   $: if (styleElement) {
     styleElement.innerHTML = style
   }

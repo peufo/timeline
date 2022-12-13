@@ -1,5 +1,6 @@
 <script lang="ts">
   import TimeLineEditable from '$lib/TimeLineEditable.svelte'
+  import TimeLine from '$lib/TimeLine.svelte'
   import { timelineStore, styleStore } from '$lib/store'
   import LocalStorage from '$lib/LocalStorage.svelte'
   import '$lib/assets/index.css'
@@ -54,6 +55,14 @@
       <div class="grow-1" />
       <Export elem={timelineElement} />
     </div>
+  </div>
+
+  <div>
+    <TimeLine
+      events={$timeLineItem.events}
+      hasNext={$timeLineItem.hasNext}
+      style={$styleItem}
+    />
   </div>
 </div>
 
