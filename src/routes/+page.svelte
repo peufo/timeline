@@ -56,14 +56,6 @@
       <Export elem={timelineElement} />
     </div>
   </div>
-
-  <div>
-    <TimeLine
-      events={$timeLineItem.events}
-      hasNext={$timeLineItem.hasNext}
-      style={$styleItem}
-    />
-  </div>
 </div>
 
 <style lang="scss">
