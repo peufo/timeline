@@ -20,6 +20,7 @@
 
 .time {
   align-self: start;
+  justify-self: flex-end;
   padding: 0.4em 1em;
   margin-right: 0.4em;
   border-radius: 8px;
