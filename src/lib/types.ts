@@ -3,5 +3,5 @@ export type TimeLineEvent = {
   time?: string
   date?: Date
   detail?: string
-  subEvents?: TimelineEvent[]
+  subEvents?: TimeLineEvent[]
 }
