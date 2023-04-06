@@ -41,10 +41,10 @@
         timeline: timelineStore.toJSON(),
         style: styleStore.toJSON(),
       }
-      const { origin } = $page.url
+      const { origin, pathname } = $page.url
       const query = new URLSearchParams()
       query.append('save', JSON.stringify(save))
-      const url = `${origin}?${query.toString()}`
+      const url = `${origin}${pathname}?${query.toString()}`
       await navigator.clipboard.writeText(url)
       addNotification({
         type: 'success',
