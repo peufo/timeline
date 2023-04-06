@@ -2,8 +2,8 @@
   import { browser } from '$app/environment'
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
+  import { base } from '$app/paths'
   import { onMount } from 'svelte'
-  import qs from 'qs'
   import z from 'zod'
   import { getNotificationsContext } from 'svelte-notifications'
 
@@ -62,7 +62,7 @@
         removeAfter: 3000,
       })
       console.error(res.error)
-      return goto('/', { replaceState: true })
+      return goto(base, { replaceState: true })
     }
 
     const { timeline, style } = res.data
@@ -84,7 +84,7 @@
       styleStore.item.set(style.item)
     }
 
-    return goto('/', { replaceState: true })
+    return goto(base, { replaceState: true })
   })
 </script>
 

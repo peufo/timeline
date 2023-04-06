@@ -2,7 +2,6 @@
   import { toBlob } from 'html-to-image'
   import { page } from '$app/stores'
   import { getNotificationsContext } from 'svelte-notifications'
-  import qs from 'qs'
 
   import { timelineStore, styleStore } from '$lib/store'
 
