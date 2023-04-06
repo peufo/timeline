@@ -70,16 +70,16 @@
     const styleExist = styleStore.itemExist(style.key)
 
     const confirmMsg = (title: string, key: string) => `
-      Une sauvegarde de "${title}" est disponnible dans l'url.\n
-      Voulez-vous écraser votre la sauvegarde "${key}"  ?
+      ${title} est disponible dans l'url.
+      Voulez-vous écraser votre sauvegarde "${key}"  ?
     `
 
-    if (!timelineExist || confirm(confirmMsg('timeline', timeline.key))) {
+    if (!timelineExist || confirm(confirmMsg('Une timeline', timeline.key))) {
       timelineStore.key.set(timeline.key)
       timelineStore.item.set(timeline.item)
     }
 
-    if (!styleExist || confirm(confirmMsg('style', style.key))) {
+    if (!styleExist || confirm(confirmMsg('Un style', style.key))) {
       styleStore.key.set(style.key)
       styleStore.item.set(style.item)
     }
