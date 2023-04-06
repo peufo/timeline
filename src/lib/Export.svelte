@@ -1,6 +1,10 @@
 <script lang="ts">
   import { toBlob } from 'html-to-image'
+  import { page } from '$app/stores'
   import { getNotificationsContext } from 'svelte-notifications'
+  import qs from 'qs'
+
+  import { timelineStore, styleStore } from '$lib/store'
 
   export let elem: HTMLElement
 
@@ -16,7 +20,35 @@
       await navigator.clipboard.write(data)
       addNotification({
         type: 'success',
-        text: 'Timeline copier dans le presse papier !',
+        text: 'Timeline copiée dans le presse papier !',
+        position: 'bottom-right',
+        removeAfter: 3000,
+      })
+    } catch (error: any) {
+      console.error(error)
+      addNotification({
+        type: 'error',
+        text: error.message || 'Erreur',
+        position: 'bottom-right',
+        removeAfter: 3000,
+      })
+    }
+  }
+
+  async function copyLink() {
+    try {
+      const save = {
+        timeline: timelineStore.toJSON(),
+        style: styleStore.toJSON(),
+      }
+      const { origin } = $page.url
+      const query = new URLSearchParams()
+      query.append('save', JSON.stringify(save))
+      const url = `${origin}?${query.toString()}`
+      await navigator.clipboard.writeText(url)
+      addNotification({
+        type: 'success',
+        text: 'Lien copié dans le presse papier !',
         position: 'bottom-right',
         removeAfter: 3000,
       })
@@ -32,7 +64,8 @@
   }
 </script>
 
-<button on:click={capture}>Capturer</button>
+<button on:click={copyLink} style="margin-right: 1em;">Copier le lien</button>
+<button on:click={capture}>Capturer une image</button>
 
 <style>
   button {

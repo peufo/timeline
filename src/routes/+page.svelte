@@ -1,4 +1,13 @@
 <script lang="ts">
+  import { browser } from '$app/environment'
+  import { goto } from '$app/navigation'
+  import { page } from '$app/stores'
+  import { onMount } from 'svelte'
+  import qs from 'qs'
+  import z from 'zod'
+  import { getNotificationsContext } from 'svelte-notifications'
+
+  import type { TimelineEvent } from '$lib/types'
   import TimeLineEditable from '$lib/TimeLineEditable.svelte'
   import { timelineStore, styleStore } from '$lib/store'
   import LocalStorage from '$lib/LocalStorage.svelte'
@@ -10,6 +19,73 @@
   const styleItem = styleStore.item
 
   let timelineElement: HTMLDivElement
+  const { addNotification } = getNotificationsContext()
+
+  onMount(() => {
+    if (!browser) return
+
+    const saveURI = $page.url.searchParams.get('save')
+    if (!saveURI) return
+
+    const save = JSON.parse(saveURI)
+
+    const eventShemaBase = z.object({
+      title: z.string(),
+      detail: z.string().optional(),
+      time: z.string().optional(),
+    })
+
+    const eventShema: z.ZodType<TimelineEvent> = eventShemaBase.extend({
+      subEvents: z.lazy(() => eventShema.array().optional()),
+    })
+
+    const saveShema = z.object({
+      style: z.object({
+        key: z.string(),
+        item: z.string(),
+      }),
+      timeline: z.object({
+        key: z.string(),
+        item: z.object({
+          hasNext: z.boolean(),
+          events: z.array(eventShema),
+        }),
+      }),
+    })
+
+    const res = saveShema.safeParse(save)
+    if (!res.success) {
+      addNotification({
+        type: 'error',
+        text: 'Schéma de sauvegarde invalide',
+        position: 'bottom-right',
+        removeAfter: 3000,
+      })
+      console.error(res.error)
+      return goto('/', { replaceState: true })
+    }
+
+    const { timeline, style } = res.data
+    const timelineExist = timelineStore.itemExist(timeline.key)
+    const styleExist = styleStore.itemExist(style.key)
+
+    const confirmMsg = (title: string, key: string) => `
+      Une sauvegarde de "${title}" est disponnible dans l'url.\n
+      Voulez-vous écraser votre la sauvegarde "${key}"  ?
+    `
+
+    if (!timelineExist || confirm(confirmMsg('timeline', timeline.key))) {
+      timelineStore.key.set(timeline.key)
+      timelineStore.item.set(timeline.item)
+    }
+
+    if (!styleExist || confirm(confirmMsg('style', style.key))) {
+      styleStore.key.set(style.key)
+      styleStore.item.set(style.item)
+    }
+
+    return goto('/', { replaceState: true })
+  })
 </script>
 
 <div class="wrapper">

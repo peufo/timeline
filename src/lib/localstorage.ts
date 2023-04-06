@@ -26,6 +26,17 @@ export function createLocalStorage<T = unknown>(
   })
   item.subscribe((_item) => writeItem(keyValue, _item))
 
+  function valueOf<Type = unknown>(
+    store: ReturnType<typeof writable<Type>>
+  ): Type {
+    let value: Type | null = null
+    store.update((v) => {
+      value = v
+      return v
+    })
+    return value as Type
+  }
+
   function getKeys() {
     return Object.keys(browser ? localStorage : {})
       .filter((k) => k.startsWith(`${prefix}-`))
@@ -77,12 +88,25 @@ export function createLocalStorage<T = unknown>(
       return defaultKey
     })
   }
-  function ensureItem(_key: string, item: T) {
-    if (!browser) return
+
+  function itemExist(_key: string) {
     const existingItem = localStorage.getItem(`${prefix}-${_key}`)
-    if (existingItem) return
+    return !!existingItem
+  }
+
+  /** Ensure the exitence of an item */
+  function ensureItem(_key: string, item: T) {
+    if (!browser || itemExist(_key)) return
     writeItem(_key, item)
     keys.update((_keys) => [..._keys, _key])
+  }
+
+  /** Return a json of key and selected item */
+  function toJSON() {
+    return {
+      key: valueOf(key),
+      item: valueOf(item),
+    }
   }
 
   return {
@@ -90,7 +114,9 @@ export function createLocalStorage<T = unknown>(
     key,
     keys,
     createItem,
+    itemExist,
     ensureItem,
     deleteItem,
+    toJSON,
   }
 }
